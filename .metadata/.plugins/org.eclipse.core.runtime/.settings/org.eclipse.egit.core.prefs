@@ -1,4 +1,0 @@
-core_save_credentials_in_secure_store=false
-core_ssh_agent=false
-core_ssh_default_agent=\\\\.\\pageant
-eclipse.preferences.version=1
