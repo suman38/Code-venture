@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 public class Engine extends JPanel implements Runnable{
 
 	private static final long serialVersionUID = 1L;
-	private Game game;
+	
 	public static final int GameWidth = 800, GameHeight = 600;
 
 	private boolean running = false;
@@ -17,11 +17,13 @@ public class Engine extends JPanel implements Runnable{
 	
 	private TopPanel topPanel;
 	private SidePanel sidePanel;
+	private Game game;
 	
 	public Engine()
 	{
 		setPreferredSize(new Dimension(GameWidth, GameHeight));
 		setBackground(Color.BLACK);
+		setDoubleBuffered(true);
 		setLayout(new BorderLayout());
 		
 		game = new Game(); //Game Area
