@@ -1,0 +1,27 @@
+package com.suman.game;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class Game extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
+	private BufferedImage img1;
+	private int x,y,width,height;
+	
+	// This is for the rendering the game
+	public Game() {
+
+		try {
+			img1 = ImageIO.read(this.getClass().getResource("images/player.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+}

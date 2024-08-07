@@ -1,0 +1,21 @@
+package com.suman.game;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class Game extends JPanel{
+
+	private static final long serialVersionUID = 1L;
+	
+	
+	//This is for the rendering the game
+	public Game() {
+		
+	}	
+}

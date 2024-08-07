@@ -1,0 +1,42 @@
+package com.suman.game;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
+
+public class Game extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
+	// This is for the rendering the game
+	public Game() {
+
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		Graphics2D g2 = (Graphics2D) g;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

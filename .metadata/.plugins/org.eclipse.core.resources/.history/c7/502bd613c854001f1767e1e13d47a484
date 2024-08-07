@@ -1,0 +1,49 @@
+package com.suman.game;
+
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+public class Game extends JPanel{
+
+	private static final long serialVersionUID = 1L;
+	
+	private BufferedImage img1;
+	private int x, y, width, height;
+	
+	//This is for the rendering the game
+	public Game() {
+		
+		File f = new File();
+		img1 = ImageIO.read(f);
+		x = 100;
+		y = 100;
+		width = 32;
+		height = 32;
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		// TODO Auto-generated method stub
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		
+		g2.drawImage(img1, x,y,width,height,null);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
