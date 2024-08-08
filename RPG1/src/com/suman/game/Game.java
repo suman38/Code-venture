@@ -15,13 +15,16 @@ public class Game extends JPanel {
 	private BufferedImage img1;
 	private int x,y,width,height;
 	
+	//best practise would be "res" but who cares.
+	
 	// This is for the rendering the game
 	public Game() {
 
+		//That's it
+		
 		try {
-			img1 = ImageIO.read(this.getClass().getResource("images/player.png"));
+			img1 = ImageIO.read(getClass().getResource("/playerimages/player.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -37,9 +40,9 @@ public class Game extends JPanel {
 		
 		Graphics2D g2 = (Graphics2D)g;
 		g2.drawImage(img1, x+100, y, width, height, null);
-		g2.drawImage(img1, x, y+20, width, height, null);
-		g2.drawImage(img1, x+50, y+40, width, height, null);
-		g2.drawImage(img1, x-10, y-20, width, height, null);
+//		g2.drawImage(img1, x, y+20, width, height, null);
+//		g2.drawImage(img1, x+50, y+40, width, height, null);
+//		g2.drawImage(img1, x-10, y-20, width, height, null);
 		
 		g2.dispose();
 	}
