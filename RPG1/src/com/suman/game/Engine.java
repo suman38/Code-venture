@@ -3,56 +3,63 @@ package com.suman.game;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
-public class Engine extends JPanel implements Runnable{
+public class Engine extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int GameWidth = 800, GameHeight = 600;
 
-	private boolean running = false;
-	private Thread gameThread = null;
-	
+	private Timer gameTimer;
+	private int delay = 33; // 1000 millisec = 1sec, 33ms = ~30fps
+
 	private TopPanel topPanel;
 	private SidePanel sidePanel;
 	private Game game;
-	
-	public Engine()
-	{
+
+	public Engine() {
 		setPreferredSize(new Dimension(GameWidth, GameHeight));
 		setBackground(Color.BLACK);
 		setDoubleBuffered(true);
 		setLayout(new BorderLayout());
-		
-		game = new Game(); //Game Area
-		
+
+		game = new Game(); // Game Area
+
 		topPanel = new TopPanel();
 		sidePanel = new SidePanel();
-		
-		add(topPanel,"North");
-		add(sidePanel,"East");
+
+		add(topPanel, "North");
+		add(sidePanel, "East");
 		add(game, "Center");
 	}
+
 	public void startGame() {
-		running = true;
-		gameThread = new Thread(this);
-		gameThread.start();
-	}
-	
-	private void update() {
-		topPanel.update();
-	}
-	private void render() {
-		topPanel.repaint();
+		gameTimer = new Timer(delay, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tick();
+				render();
+			}
+		});
+
+		// we can make it smoother too
+
+		gameTimer.start();
 	}
 
-	@Override
-	public void run() {
-		while(running) {
-			update();
-			render();
-		}
+	private void tick() {
+		topPanel.tick();
+		game.tick();
+	}
+
+	private void render() {
+		topPanel.repaint();
+		game.repaint();
 	}
 }

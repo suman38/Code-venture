@@ -5,10 +5,7 @@ import javax.swing.SwingUtilities;
 
 public class MainClass1 {
 
-	public MainClass1()
-	{
-		//No more glitching
-		
+	public MainClass1() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -20,7 +17,7 @@ public class MainClass1 {
 				frm.setResizable(false);
 				frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frm.setVisible(true);
-				g.startGame();				
+				g.startGame();
 			}
 		});
 	}
