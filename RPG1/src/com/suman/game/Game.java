@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import com.suman.game.art.Art;
+
 public class Game extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -17,8 +19,13 @@ public class Game extends JPanel {
 
 	private int playerMoveSpeed = 5;
 
+	private Art art;
+	
 	// This is for the rendering the game
 	public Game() {
+		
+		art = new Art();
+		
 		try {
 			img1 = ImageIO.read(getClass().getResource("/playerimages/player.png"));
 		} catch (IOException e) {
@@ -33,7 +40,7 @@ public class Game extends JPanel {
 
 	public void tick() {
 		x += playerMoveSpeed;
-		//y += playerMoveSpeed;
+		// y += playerMoveSpeed;
 	}
 
 	@Override
@@ -42,6 +49,11 @@ public class Game extends JPanel {
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img1, x, y, width, height, null);
+		
+		g2.drawImage(art.playerDown, x, 0, art.artResize, art.artResize, null);
+		g2.drawImage(art.grass,100,0,art.artResize,art.artResize,null);
+		
+		
 		g2.dispose();
 	}
 }

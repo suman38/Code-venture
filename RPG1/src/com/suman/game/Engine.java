@@ -1,7 +1,6 @@
 package com.suman.game;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +23,6 @@ public class Engine extends JPanel {
 
 	public Engine() {
 		setPreferredSize(new Dimension(GameWidth, GameHeight));
-		setBackground(Color.BLACK);
 		setDoubleBuffered(true);
 		setLayout(new BorderLayout());
 
@@ -47,9 +45,6 @@ public class Engine extends JPanel {
 				render();
 			}
 		});
-
-		// we can make it smoother too
-
 		gameTimer.start();
 	}
 
