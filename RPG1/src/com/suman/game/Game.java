@@ -3,11 +3,7 @@ package com.suman.game;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -19,43 +15,35 @@ public class Game extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private BufferedImage img1;
-	private int x, y, width, height;
-
-	private int playerMoveSpeed = 5;
-
-	private final int IFW = JComponent.WHEN_IN_FOCUSED_WINDOW;
-	private final String MOVE_UP = "move player up";
-	private final String MOVE_DOWN = "move player down";
-
 	private Art art;
+
+	private int x, y;
+	private final int playerMoveSpeed = 5;
+
+	private int inFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
 	// This is for the rendering the game
 	public Game() {
 
-		// Arrow keys
-		this.getInputMap(IFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), MOVE_UP);
-		this.getInputMap(IFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), MOVE_DOWN);
+		// directional keys
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("W"), "move_player_up");
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("S"), "move_player_down");
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("A"), "move_player_left");
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("D"), "move_player_right");
 
-		// W and S
-		this.getInputMap(IFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), MOVE_UP);
-		this.getInputMap(IFW).put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), MOVE_DOWN);
+		// Arrow Keys
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("UP"), "move_player_up");
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("DOWN"), "move_player_down");
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("LEFT"), "move_player_left");
+		getInputMap(inFocus).put(KeyStroke.getKeyStroke("RIGHT"), "move_player_right");
 
-		this.getActionMap().put(MOVE_UP, new MovePlayerAction(1,this));
-		this.getActionMap().put(MOVE_DOWN, new MovePlayerAction(2,this));
+		// Action maps
+		getActionMap().put("move_player_up", new MovePlayer(1, this));
+		getActionMap().put("move_player_down", new MovePlayer(2, this));
+		getActionMap().put("move_player_left", new MovePlayer(3, this));
+		getActionMap().put("move_player_right", new MovePlayer(4, this));
 
 		art = new Art();
-
-		try {
-			img1 = ImageIO.read(getClass().getResource("/playerimages/player.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		x = 0;
-		y = 200;
-		width = img1.getWidth();
-		height = img1.getHeight();
 	}
 
 	public void tick() {
@@ -67,47 +55,47 @@ public class Game extends JPanel {
 		super.paintComponent(g);
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawImage(img1, x, y, width, height, null);
 
-		g2.drawImage(art.playerDown, x+100, y, art.artResize, art.artResize, null);
-		g2.drawImage(art.grass, 100, 0, art.artResize, art.artResize, null);
+		g2.drawImage(art.grass, 0, 0, art.artResize, art.artResize, null);
+		g2.drawImage(art.grass, art.artResize, 0, art.artResize, art.artResize, null);
+		g2.drawImage(art.grass, art.artResize * 2, 0, art.artResize, art.artResize, null);
+		g2.drawImage(art.grass, 0, art.artResize, art.artResize, art.artResize, null);
+		g2.drawImage(art.grass, art.artResize, art.artResize, art.artResize, art.artResize, null);
+		g2.drawImage(art.grass, art.artResize * 2, art.artResize, art.artResize, art.artResize, null);
+
+		g2.drawImage(art.playerDown, x, y, art.artResize, art.artResize, null);
 
 		g2.dispose();
 	}
 
-	public void movePlayerUp() {
-		y -= playerMoveSpeed;
+	public void movePlayerHorizontally(int flag) {
+		x += playerMoveSpeed * flag;
 	}
-	
-	public void movePlayerDown()
-	{
-		y += playerMoveSpeed;
+
+	public void movePlayerVertically(int flag) {
+		y += playerMoveSpeed * flag;
 	}
 }
 
-class MovePlayerAction extends AbstractAction {
-
+class MovePlayer extends AbstractAction {
 	private static final long serialVersionUID = 1L;
-
+	private int dir;
 	private Game game;
-	private int direction;
 
-	public MovePlayerAction(int direction, Game game) {
-		this.direction = direction;
+	public MovePlayer(int dir, Game game) {
+		this.dir = dir;
 		this.game = game;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		switch (direction) {
-		case 1:
-			//up
-			game.movePlayerUp();
-			break;
-		case 2:
-			//down
-			game.movePlayerDown();
-			break;
-		}
+		if (dir == 1)
+			game.movePlayerVertically(-1); // up
+		else if (dir == 2)
+			game.movePlayerVertically(1); // down
+		else if (dir == 3)
+			game.movePlayerHorizontally(-1); // left
+		else if (dir == 4)
+			game.movePlayerHorizontally(1); // right
 	}
 }
