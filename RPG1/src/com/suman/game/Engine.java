@@ -15,7 +15,7 @@ public class Engine extends JPanel {
 	public static final int GameWidth = 800, GameHeight = 600;
 
 	private Timer gameTimer;
-	private int delay = 33; // 1000 millisec = 1sec, 33ms = ~30fps
+	private int delay = 16; // 1000 millisec = 1sec, 33ms = ~30fps, 16 = ~60fps
 
 	private TopPanel topPanel;
 	private SidePanel sidePanel;
@@ -24,6 +24,7 @@ public class Engine extends JPanel {
 	public Engine() {
 		setPreferredSize(new Dimension(GameWidth, GameHeight));
 		setDoubleBuffered(true);
+		setFocusable(true);
 		setLayout(new BorderLayout());
 
 		game = new Game(); // Game Area

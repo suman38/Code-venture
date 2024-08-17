@@ -10,44 +10,26 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import com.suman.game.art.Art;
+import com.suman.game.entities.Player;
 
 public class Game extends JPanel {
-
 	private static final long serialVersionUID = 1L;
 
 	private Art art;
-
-	private int x, y;
-	private final int playerMoveSpeed = 5;
-
-	private int inFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
+	private Player player;
+	private final int InFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
+	private int direction = 0;
 
 	// This is for the rendering the game
 	public Game() {
-
-		// directional keys
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("W"), "move_player_up");
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("S"), "move_player_down");
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("A"), "move_player_left");
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("D"), "move_player_right");
-
-		// Arrow Keys
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("UP"), "move_player_up");
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("DOWN"), "move_player_down");
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("LEFT"), "move_player_left");
-		getInputMap(inFocus).put(KeyStroke.getKeyStroke("RIGHT"), "move_player_right");
-
-		// Action maps
-		getActionMap().put("move_player_up", new MovePlayer(1, this));
-		getActionMap().put("move_player_down", new MovePlayer(2, this));
-		getActionMap().put("move_player_left", new MovePlayer(3, this));
-		getActionMap().put("move_player_right", new MovePlayer(4, this));
-
 		art = new Art();
+		player = new Player(this);
+
+		assignKeyBindings();
 	}
 
 	public void tick() {
-
+		player.tick();
 	}
 
 	@Override
@@ -63,39 +45,80 @@ public class Game extends JPanel {
 		g2.drawImage(art.grass, art.artResize, art.artResize, art.artResize, art.artResize, null);
 		g2.drawImage(art.grass, art.artResize * 2, art.artResize, art.artResize, art.artResize, null);
 
-		g2.drawImage(art.playerDown, x, y, art.artResize, art.artResize, null);
+		player.render(g2);
 
 		g2.dispose();
 	}
 
-	public void movePlayerHorizontally(int flag) {
-		x += playerMoveSpeed * flag;
+	private void assignKeyBindings() {
+		// directional keys
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed W"), "move_player_up");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed S"), "move_player_down");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed A"), "move_player_left");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed D"), "move_player_right");
+
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released W"), "stop_player");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released S"), "stop_player");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released A"), "stop_player");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released D"), "stop_player");
+
+		// Arrow Keys
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed UP"), "move_player_up");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed DOWN"), "move_player_down");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed LEFT"), "move_player_left");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed RIGHT"), "move_player_right");
+
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released UP"), "stop_player");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released LEFT"), "stop_player");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released DOWN"), "stop_player");
+		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released RIGHT"), "stop_player");
+
+		// Action maps
+		getActionMap().put("move_player_up", new MovePlayer(1));
+		getActionMap().put("move_player_down", new MovePlayer(2));
+		getActionMap().put("move_player_left", new MovePlayer(3));
+		getActionMap().put("move_player_right", new MovePlayer(4));
+
+		getActionMap().put("stop_player", new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player.setMoving(false);
+			}
+		});
 	}
 
-	public void movePlayerVertically(int flag) {
-		y += playerMoveSpeed * flag;
-	}
-}
-
-class MovePlayer extends AbstractAction {
-	private static final long serialVersionUID = 1L;
-	private int dir;
-	private Game game;
-
-	public MovePlayer(int dir, Game game) {
-		this.dir = dir;
-		this.game = game;
+	public int getDirection() {
+		return direction;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (dir == 1)
-			game.movePlayerVertically(-1); // up
-		else if (dir == 2)
-			game.movePlayerVertically(1); // down
-		else if (dir == 3)
-			game.movePlayerHorizontally(-1); // left
-		else if (dir == 4)
-			game.movePlayerHorizontally(1); // right
+	public Art getArt() {
+		return art;
+	}
+
+	private class MovePlayer extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		private int dir;
+		public MovePlayer(int dir) {
+			this.dir = dir;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			player.setMoving(true);
+
+			direction = dir;
+			
+			if (dir == 1)
+				player.movePlayerVertically(-1); // up
+			else if (dir == 2)
+				player.movePlayerVertically(1); // down
+			else if (dir == 3)
+				player.movePlayerHorizontally(-1); // left
+			else if (dir == 4)
+				player.movePlayerHorizontally(1); // right
+		}
 	}
 }
