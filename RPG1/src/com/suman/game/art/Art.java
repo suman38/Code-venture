@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 public class Art {
 
 	private final int artSize = 16;
-	public final int artResize = 64;
+	public final int artResize = 48;
 
 	private SpriteSheet playersheet;
 	private SpriteSheet tileSheet;

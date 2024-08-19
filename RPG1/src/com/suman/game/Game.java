@@ -18,7 +18,8 @@ public class Game extends JPanel {
 	private Art art;
 	private Player player;
 	private final int InFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
-	private int direction = 0;
+
+	private int playerDirection = 0;
 
 	// This is for the rendering the game
 	public Game() {
@@ -84,23 +85,24 @@ public class Game extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Player not moving
 				player.setMoving(false);
 			}
 		});
-	}
-
-	public int getDirection() {
-		return direction;
 	}
 
 	public Art getArt() {
 		return art;
 	}
 
+	public int getDirection() {
+		return playerDirection;
+	}
+
 	private class MovePlayer extends AbstractAction {
 		private static final long serialVersionUID = 1L;
-
 		private int dir;
+
 		public MovePlayer(int dir) {
 			this.dir = dir;
 		}
@@ -109,8 +111,8 @@ public class Game extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			player.setMoving(true);
 
-			direction = dir;
-			
+			playerDirection = dir;
+
 			if (dir == 1)
 				player.movePlayerVertically(-1); // up
 			else if (dir == 2)

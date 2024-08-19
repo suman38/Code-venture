@@ -30,7 +30,7 @@ public class Engine extends JPanel {
 		game = new Game(); // Game Area
 
 		topPanel = new TopPanel();
-		sidePanel = new SidePanel();
+		sidePanel = new SidePanel(this);
 
 		add(topPanel, "North");
 		add(sidePanel, "East");

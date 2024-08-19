@@ -10,16 +10,19 @@ public class Player {
 	private Game game;
 	private int x, y;
 
-	private boolean moving = false;
-	private final int MoveSpeed = 5;
+	private final int MoveSpeed = 7;
+
 	private int currentSprite = 0;
 	private int counter = 0;
+
+	private boolean moving = false;
 
 	public Player(Game game) {
 		this.game = game;
 	}
 
 	public void tick() {
+
 	}
 
 	public void render(Graphics2D g2) {
@@ -27,44 +30,40 @@ public class Player {
 	}
 
 	private BufferedImage getImage() {
-
 		BufferedImage img = game.getArt().playerDown;
-		
+
 		if (moving) {
-			counter++;
-
-			if (game.getDirection() == 1) {
-				// up
+			
+			if(game.getDirection() == 1)
 				img = game.getArt().playerMovingUp[currentSprite];
-			} else if (game.getDirection() == 2) {
-				// down
+			else if(game.getDirection() == 2)
 				img = game.getArt().playerMovingDown[currentSprite];
-			} else if (game.getDirection() == 3) {
-				// left
+			else if(game.getDirection() == 3)
 				img = game.getArt().playerMovingLeft[currentSprite];
-			} else if (game.getDirection() == 4) {
-				// right
+			else if(game.getDirection() == 4)
 				img = game.getArt().playerMovingRight[currentSprite];
-			}
-
-			if (counter == 6) {
+			
+			counter++;
+			if (counter > 7) {
 				currentSprite++;
-
-				if (currentSprite > 3)
+				if (currentSprite > 3) {
 					currentSprite = 0;
-
+				}
 				counter = 0;
 			}
-		} else {
-			if (game.getDirection() == 1)
+		}
+		else
+		{
+			if(game.getDirection() == 1)
 				img = game.getArt().playerUp;
-			else if (game.getDirection() == 2)
+			else if(game.getDirection() == 2)
 				img = game.getArt().playerDown;
-			else if (game.getDirection() == 3)
+			else if(game.getDirection() == 3)
 				img = game.getArt().playerLeft;
-			else if (game.getDirection() == 4)
+			else if(game.getDirection() == 4)
 				img = game.getArt().playerRight;
 		}
+
 		return img;
 	}
 
@@ -76,12 +75,7 @@ public class Player {
 		y += MoveSpeed * flag;
 	}
 
-	public boolean isMoving() {
-		return moving;
-	}
-
 	public void setMoving(boolean moving) {
 		this.moving = moving;
 	}
-
 }
