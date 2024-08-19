@@ -66,9 +66,7 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
-		
-		
+
 		if (e.getSource() == btnExit) {
 			int ch = JOptionPane.showConfirmDialog(engine, "Do you want to exit the game?", "Exit game",
 					JOptionPane.YES_NO_OPTION);
