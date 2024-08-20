@@ -9,8 +9,8 @@ public class MainClass1 {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				Engine g = new Engine();
 				JFrame frm = new JFrame("Game");
+				Engine g = new Engine(frm);
 				frm.add(g);
 				frm.pack();
 				frm.setLocationRelativeTo(null);

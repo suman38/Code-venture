@@ -5,8 +5,12 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import com.suman.game.ui.SidePanel;
+import com.suman.game.ui.TopPanel;
 
 public class Engine extends JPanel {
 
@@ -21,7 +25,7 @@ public class Engine extends JPanel {
 	private SidePanel sidePanel;
 	private Game game;
 
-	public Engine() {
+	public Engine(JFrame frm) {
 		setPreferredSize(new Dimension(GameWidth, GameHeight));
 		setDoubleBuffered(true);
 		setFocusable(true);
@@ -29,8 +33,8 @@ public class Engine extends JPanel {
 
 		game = new Game(); // Game Area
 
-		topPanel = new TopPanel();
-		sidePanel = new SidePanel(this);
+		topPanel = new TopPanel(game.getPlayer());
+		sidePanel = new SidePanel(this, frm);
 
 		add(topPanel, "North");
 		add(sidePanel, "East");
@@ -57,5 +61,9 @@ public class Engine extends JPanel {
 	private void render() {
 		topPanel.repaint();
 		game.repaint();
+	}
+
+	public Game getGame() {
+		return game;
 	}
 }

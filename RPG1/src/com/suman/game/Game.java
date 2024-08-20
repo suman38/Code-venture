@@ -1,5 +1,7 @@
 package com.suman.game;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -23,6 +25,9 @@ public class Game extends JPanel {
 
 	// This is for the rendering the game
 	public Game() {
+		setPreferredSize(new Dimension(640, 480));
+		setBackground(Color.BLACK);
+
 		art = new Art();
 		player = new Player(this);
 
@@ -97,6 +102,10 @@ public class Game extends JPanel {
 
 	public int getDirection() {
 		return playerDirection;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 	private class MovePlayer extends AbstractAction {

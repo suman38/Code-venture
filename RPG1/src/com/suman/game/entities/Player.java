@@ -10,6 +10,8 @@ public class Player {
 	private Game game;
 	private int x, y;
 
+	private int hp, maxHp, mp, maxMp;
+
 	private final int MoveSpeed = 7;
 
 	private int currentSprite = 0;
@@ -19,6 +21,11 @@ public class Player {
 
 	public Player(Game game) {
 		this.game = game;
+
+		maxHp = 100;
+		maxMp = 50;
+		hp = maxHp;
+		mp = maxMp;
 	}
 
 	public void tick() {
@@ -33,16 +40,16 @@ public class Player {
 		BufferedImage img = game.getArt().playerDown;
 
 		if (moving) {
-			
-			if(game.getDirection() == 1)
+
+			if (game.getDirection() == 1)
 				img = game.getArt().playerMovingUp[currentSprite];
-			else if(game.getDirection() == 2)
+			else if (game.getDirection() == 2)
 				img = game.getArt().playerMovingDown[currentSprite];
-			else if(game.getDirection() == 3)
+			else if (game.getDirection() == 3)
 				img = game.getArt().playerMovingLeft[currentSprite];
-			else if(game.getDirection() == 4)
+			else if (game.getDirection() == 4)
 				img = game.getArt().playerMovingRight[currentSprite];
-			
+
 			counter++;
 			if (counter > 7) {
 				currentSprite++;
@@ -51,20 +58,21 @@ public class Player {
 				}
 				counter = 0;
 			}
-		}
-		else
-		{
-			if(game.getDirection() == 1)
+		} else {
+			if (game.getDirection() == 1)
 				img = game.getArt().playerUp;
-			else if(game.getDirection() == 2)
+			else if (game.getDirection() == 2)
 				img = game.getArt().playerDown;
-			else if(game.getDirection() == 3)
+			else if (game.getDirection() == 3)
 				img = game.getArt().playerLeft;
-			else if(game.getDirection() == 4)
+			else if (game.getDirection() == 4)
 				img = game.getArt().playerRight;
 		}
 
 		return img;
+	}
+
+	public void interact() {
 	}
 
 	public void movePlayerHorizontally(int flag) {
@@ -77,5 +85,45 @@ public class Player {
 
 	public void setMoving(boolean moving) {
 		this.moving = moving;
+	}
+
+	public int getPosX() {
+		return x;
+	}
+
+	public int getPosY() {
+		return y;
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public int getMp() {
+		return mp;
+	}
+
+	public int getMaxHp() {
+		return maxHp;
+	}
+
+	public void setMaxHp(int maxHp) {
+		this.maxHp = maxHp;
+	}
+
+	public int getMaxMp() {
+		return maxMp;
+	}
+
+	public void setMaxMp(int maxMp) {
+		this.maxMp = maxMp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+
+	public void setMp(int mp) {
+		this.mp = mp;
 	}
 }
