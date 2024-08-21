@@ -45,11 +45,12 @@ public class Game extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 
 		g2.drawImage(art.grass, 0, 0, art.artResize, art.artResize, null);
-		g2.drawImage(art.grass, art.artResize, 0, art.artResize, art.artResize, null);
+		g2.drawImage(art.water, art.artResize, 0, art.artResize, art.artResize, null);
 		g2.drawImage(art.grass, art.artResize * 2, 0, art.artResize, art.artResize, null);
-		g2.drawImage(art.grass, 0, art.artResize, art.artResize, art.artResize, null);
-		g2.drawImage(art.grass, art.artResize, art.artResize, art.artResize, art.artResize, null);
-		g2.drawImage(art.grass, art.artResize * 2, art.artResize, art.artResize, art.artResize, null);
+		g2.drawImage(art.dirt, 0, art.artResize, art.artResize, art.artResize, null);
+		g2.drawImage(art.water, art.artResize, art.artResize, art.artResize, art.artResize, null);
+		g2.drawImage(art.rock, art.artResize, art.artResize, art.artResize, art.artResize, null);
+		g2.drawImage(art.cement, art.artResize * 2, art.artResize, art.artResize, art.artResize, null);
 
 		player.render(g2);
 

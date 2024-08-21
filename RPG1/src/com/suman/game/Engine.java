@@ -1,14 +1,15 @@
 package com.suman.game;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.suman.game.ui.MapPanel;
 import com.suman.game.ui.SidePanel;
 import com.suman.game.ui.TopPanel;
 
@@ -21,11 +22,16 @@ public class Engine extends JPanel {
 	private Timer gameTimer;
 	private int delay = 16; // 1000 millisec = 1sec, 33ms = ~30fps, 16 = ~60fps
 
+	private CardLayout cardLayout;
+	private int currentCard;
+
 	private TopPanel topPanel;
 	private SidePanel sidePanel;
+	private JPanel centerPanel;
+	private MapPanel mapPanel;
 	private Game game;
 
-	public Engine(JFrame frm) {
+	public Engine() {
 		setPreferredSize(new Dimension(GameWidth, GameHeight));
 		setDoubleBuffered(true);
 		setFocusable(true);
@@ -34,11 +40,36 @@ public class Engine extends JPanel {
 		game = new Game(); // Game Area
 
 		topPanel = new TopPanel(game.getPlayer());
-		sidePanel = new SidePanel(this, frm);
+		sidePanel = new SidePanel(this);
+
+		mapPanel = new MapPanel();
+
+		cardLayout = new CardLayout();
+		centerPanel = new JPanel();
+		centerPanel.setLayout(cardLayout);
+
+		centerPanel.add(game, "1");
+		centerPanel.add(mapPanel, "2");
 
 		add(topPanel, "North");
 		add(sidePanel, "East");
-		add(game, "Center");
+		add(centerPanel, "Center");
+	}
+
+	public void showPanel(String s) {
+		if (s.equals("game")) {
+			if (!gameTimer.isRunning())
+				gameTimer.restart();
+
+			currentCard = 1;
+		} else if (s.equals("map")) {
+			if (gameTimer.isRunning())
+				gameTimer.stop();
+
+			currentCard = 2;
+		}
+		cardLayout.show(centerPanel, "" + currentCard);
+
 	}
 
 	public void startGame() {

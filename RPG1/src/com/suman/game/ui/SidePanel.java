@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -27,15 +26,13 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	private Engine engine;
 	private Player player;
-	
-	private JToggleButton btnBag, btnQuests;
-	private JButton btnAction, btnMap, btnExit;
+
+	private JToggleButton btnBag, btnMap, btnQuests;
+	private JButton btnAction, btnExit;
 
 	private TitledBorder titledBorder;
 
-	private MapPanel mapPanel;
-
-	public SidePanel(Engine engine, JFrame frm) {
+	public SidePanel(Engine engine) {
 		this.engine = engine;
 		this.player = engine.getGame().getPlayer();
 		setBackground(Color.DARK_GRAY);
@@ -55,10 +52,10 @@ public class SidePanel extends JPanel implements ActionListener {
 		Font f = new Font("Comic Sans MS", Font.BOLD, 18);
 
 		btnAction = new JButton("Interact");
-		btnMap = new JButton("Map",new ImageIcon(getClass().getResource("/misc/map.png")));
-		btnBag = new JToggleButton("Bag",new ImageIcon(getClass().getResource("/misc/backpack.png")));
-		btnQuests = new JToggleButton("Log",new ImageIcon(getClass().getResource("/misc/scroll.png")));
-		btnExit = new JButton("Exit",new ImageIcon(getClass().getResource("/misc/x.png")));
+		btnMap = new JToggleButton("Map", new ImageIcon(getClass().getResource("/misc/map.png")));
+		btnBag = new JToggleButton("Bag", new ImageIcon(getClass().getResource("/misc/backpack.png")));
+		btnQuests = new JToggleButton("Log", new ImageIcon(getClass().getResource("/misc/scroll.png")));
+		btnExit = new JButton("Exit", new ImageIcon(getClass().getResource("/misc/x.png")));
 
 		btnAction.setEnabled(false);
 
@@ -80,6 +77,11 @@ public class SidePanel extends JPanel implements ActionListener {
 		btnAction.setMnemonic(KeyEvent.VK_E);
 		btnQuests.setMnemonic(KeyEvent.VK_L);
 
+		btnMap.setToolTipText("World Map");
+		btnQuests.setToolTipText("Quest Log");
+		btnBag.setToolTipText("Your Bag");
+		btnAction.setToolTipText("Talk/Accept");
+
 		pnl.add(btnAction);
 		pnl.add(btnMap);
 		pnl.add(btnBag);
@@ -93,8 +95,6 @@ public class SidePanel extends JPanel implements ActionListener {
 		btnBag.addActionListener(this);
 
 		add(pnl);
-
-		mapPanel = new MapPanel(frm);
 	}
 
 	@Override
@@ -108,9 +108,11 @@ public class SidePanel extends JPanel implements ActionListener {
 				System.exit(0);
 			}
 		} else if (e.getSource() == btnMap) {
-			// Code will be added in the future
-			mapPanel.setVisible(true);
-
+			if(btnMap.getModel().isSelected())
+				engine.showPanel("map");
+			else
+				engine.showPanel("game");
+			
 		} else if (e.getSource() == btnQuests) {
 			// Code will be added in the future
 		} else if (e.getSource() == btnBag) {

@@ -1,24 +1,22 @@
 package com.suman.game.ui;
 
+import java.awt.Color;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-public class MapPanel extends JDialog{
+public class MapPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public MapPanel(JFrame frm)
-	{
-		super(frm,"World Map");
-				
-		JLabel lbl = new JLabel(new ImageIcon(getClass().getResource("/misc/worldmap.png")));
-		lbl.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+	private String path = "/misc/worldmap.png";
+
+	public MapPanel() {
+		setBackground(Color.BLACK);
+		JLabel lbl = new JLabel(new ImageIcon(getClass().getResource(path)));
+		lbl.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 		add(lbl);
-		
-		pack();
-		setLocationRelativeTo(frm);
 	}
 }
