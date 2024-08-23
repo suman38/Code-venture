@@ -13,28 +13,35 @@ import javax.swing.KeyStroke;
 
 import com.suman.game.art.Art;
 import com.suman.game.entities.Player;
+import com.suman.game.worldtiles.World;
 
 public class Game extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Art art;
+	private World world;
 	private Player player;
+	
 	private final int InFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
-
 	private int playerDirection = 0;
 
-	// This is for the rendering the game
+	// This is for rendering the game area
 	public Game() {
 		setPreferredSize(new Dimension(640, 480));
 		setBackground(Color.BLACK);
 
 		art = new Art();
+
+		world = new World(this);
+		world.loadWorld("sample1");
+
 		player = new Player(this);
 
 		assignKeyBindings();
 	}
 
 	public void tick() {
+		world.tick();
 		player.tick();
 	}
 
@@ -44,14 +51,7 @@ public class Game extends JPanel {
 
 		Graphics2D g2 = (Graphics2D) g;
 
-		g2.drawImage(art.grass, 0, 0, art.artResize, art.artResize, null);
-		g2.drawImage(art.water, art.artResize, 0, art.artResize, art.artResize, null);
-		g2.drawImage(art.grass, art.artResize * 2, 0, art.artResize, art.artResize, null);
-		g2.drawImage(art.dirt, 0, art.artResize, art.artResize, art.artResize, null);
-		g2.drawImage(art.water, art.artResize, art.artResize, art.artResize, art.artResize, null);
-		g2.drawImage(art.rock, art.artResize, art.artResize, art.artResize, art.artResize, null);
-		g2.drawImage(art.cement, art.artResize * 2, art.artResize, art.artResize, art.artResize, null);
-
+		world.render(g2);
 		player.render(g2);
 
 		g2.dispose();
@@ -91,7 +91,6 @@ public class Game extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Player not moving
 				player.setMoving(false);
 			}
 		});

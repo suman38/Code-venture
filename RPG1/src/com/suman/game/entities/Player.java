@@ -12,7 +12,7 @@ public class Player {
 
 	private int hp, maxHp, mp, maxMp;
 
-	private final int MoveSpeed = 7;
+	private final int MoveSpeed = 8;
 
 	private int currentSprite = 0;
 	private int counter = 0;
