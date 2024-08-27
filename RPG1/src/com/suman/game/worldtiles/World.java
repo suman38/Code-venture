@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.suman.game.Game;
+import com.suman.game.art.Art;
 import com.suman.game.utils.StringUtils;
 
 public class World {
@@ -12,11 +13,11 @@ public class World {
 	private String path = "res/maps/";
 	private int[][] map;
 	private int mapCols, mapRows;
-	private final int tileSize;
+	private int width, height;
+	public static final int tileSize = Art.artResize;
 	
 	public World(Game game) {
 		this.game = game;
-		tileSize = game.getArt().artResize;
 	}
 
 	public void tick() {
@@ -28,7 +29,7 @@ public class World {
 
 		for (int i = 0; i < mapRows; i++) {
 			for (int j = 0; j < mapCols; j++) {
-				g2.drawImage(getImage(j, i), i * tileSize, j * tileSize, tileSize, tileSize, null);
+				g2.drawImage(getImage(j,i), i * tileSize - game.getCamera().getoffsetX(), j * tileSize - game.getCamera().getoffsetY(), tileSize, tileSize, null);
 			}
 		}
 	}
@@ -42,6 +43,8 @@ public class World {
 			img = game.getArt().grass;
 		else if (map[x][y] == 3)
 			img = game.getArt().dirt;
+		else if(map[x][y] == 4)
+			img = game.getArt().tree;
 		
 		return img;
 	}
@@ -55,6 +58,8 @@ public class World {
 		// first 2 counter tokens to find the max rows and cols
 		mapRows = Integer.parseInt(tokens[0]);
 		mapCols = Integer.parseInt(tokens[1]);
+		width = mapCols*tileSize;
+		height = mapRows*tileSize;
 
 		map = new int[mapRows][mapCols];
 		
@@ -74,5 +79,13 @@ public class World {
 			}
 //			System.out.println();
 		}
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

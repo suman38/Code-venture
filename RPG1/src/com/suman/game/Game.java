@@ -21,7 +21,8 @@ public class Game extends JPanel {
 	private Art art;
 	private World world;
 	private Player player;
-	
+	private Camera camera;
+
 	private final int InFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	private int playerDirection = 0;
 
@@ -33,9 +34,10 @@ public class Game extends JPanel {
 		art = new Art();
 
 		world = new World(this);
-		world.loadWorld("sample1");
+		world.loadWorld("grass1");
 
 		player = new Player(this);
+		camera = new Camera(this);
 
 		assignKeyBindings();
 	}
@@ -43,6 +45,7 @@ public class Game extends JPanel {
 	public void tick() {
 		world.tick();
 		player.tick();
+		camera.centerOnPlayer();
 	}
 
 	@Override
@@ -106,6 +109,14 @@ public class Game extends JPanel {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public Camera getCamera() {
+		return camera;
 	}
 
 	private class MovePlayer extends AbstractAction {

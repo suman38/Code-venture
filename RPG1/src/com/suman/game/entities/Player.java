@@ -3,7 +3,10 @@ package com.suman.game.entities;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import com.suman.game.Game;
+import com.suman.game.art.Art;
 
 public class Player {
 
@@ -12,7 +15,7 @@ public class Player {
 
 	private int hp, maxHp, mp, maxMp;
 
-	private final int MoveSpeed = 8;
+	private final int MoveSpeed = 10;
 
 	private int currentSprite = 0;
 	private int counter = 0;
@@ -29,11 +32,12 @@ public class Player {
 	}
 
 	public void tick() {
-
+		
 	}
 
 	public void render(Graphics2D g2) {
-		g2.drawImage(getImage(), x, y, game.getArt().artResize, game.getArt().artResize, null);
+		g2.drawImage(getImage(), x - game.getCamera().getoffsetX(), y - game.getCamera().getoffsetY(), Art.artResize,
+				Art.artResize, null);
 	}
 
 	private BufferedImage getImage() {
@@ -73,6 +77,7 @@ public class Player {
 	}
 
 	public void interact() {
+		JOptionPane.showMessageDialog(game, "Not done yet","Player Error",JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void movePlayerHorizontally(int flag) {
@@ -85,14 +90,6 @@ public class Player {
 
 	public void setMoving(boolean moving) {
 		this.moving = moving;
-	}
-
-	public int getPosX() {
-		return x;
-	}
-
-	public int getPosY() {
-		return y;
 	}
 
 	public int getHp() {
@@ -125,5 +122,13 @@ public class Player {
 
 	public void setMp(int mp) {
 		this.mp = mp;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 }

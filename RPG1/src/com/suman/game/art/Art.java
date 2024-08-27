@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 public class Art {
 
 	private final int artSize = 16;
-	public final int artResize = 32;
+	public static final int artResize = 64;
 
 	private SpriteSheet playersheet;
 	private SpriteSheet tileSheet;
@@ -17,11 +17,11 @@ public class Art {
 
 	public BufferedImage playerDown, playerUp, playerLeft, playerRight;
 
-	public BufferedImage grass, water, dirt, cement, rock;
+	public BufferedImage grass, water, dirt, cement, rock, tree;
 
 	public Art() {
 		playersheet = new SpriteSheet("/playerimages/player_sheet_16x16.png");
-		tileSheet = new SpriteSheet("/tiles/tile_sheet_48x32.png");
+		tileSheet = new SpriteSheet("/tiles/tile_sheet2.png");
 
 		playerMovingDown = new BufferedImage[4];
 		playerMovingDown[0] = playersheet.crop(artSize, 0, artSize, artSize);
@@ -55,7 +55,8 @@ public class Art {
 		grass = tileSheet.crop(0, 0, artSize, artSize);
 		water = tileSheet.crop(artSize, 0, artSize, artSize);
 		cement = tileSheet.crop(artSize * 2, 0, artSize, artSize);
-		dirt = tileSheet.crop(0, artSize, artSize, artSize);
+		dirt = tileSheet.crop(artSize*2, artSize, artSize, artSize);
 		rock = tileSheet.crop(artSize, artSize, artSize, artSize);
+		tree = tileSheet.crop(0, artSize, artSize, artSize);
 	}
 }

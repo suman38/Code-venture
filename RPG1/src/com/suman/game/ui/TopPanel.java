@@ -10,7 +10,9 @@ import java.awt.RenderingHints;
 import javax.swing.JPanel;
 
 import com.suman.game.Engine;
+import com.suman.game.art.Art;
 import com.suman.game.entities.Player;
+import com.suman.game.worldtiles.World;
 
 public class TopPanel extends JPanel {
 
@@ -37,9 +39,9 @@ public class TopPanel extends JPanel {
 		mp = player.getMp();
 		maxHp = player.getMaxHp();
 		maxMp = player.getMaxMp();
-		
-		posx = player.getPosX();
-		posy = player.getPosY();
+
+		posx = ((player.getX() + Art.artResize / 2) / World.tileSize) + 1;
+		posy = ((player.getY() + Art.artResize / 2) / World.tileSize) + 1;
 	}
 
 	@Override
@@ -50,8 +52,8 @@ public class TopPanel extends JPanel {
 		g2.setRenderingHints(textRendering);
 		g2.setFont(f);
 		g2.setColor(Color.YELLOW);
-		g2.drawString("Hp: "+hp+"/"+maxHp, 30, 40);
-		g2.drawString("Mp: "+mp+"/"+maxMp, 30, 90);
+		g2.drawString("Hp: " + hp + "/" + maxHp, 30, 40);
+		g2.drawString("Mp: " + mp + "/" + maxMp, 30, 90);
 
 		g2.drawString("Place name", 550, 40);
 		g2.drawString("X: " + posx + "  Y: " + posy, 550, 90);
