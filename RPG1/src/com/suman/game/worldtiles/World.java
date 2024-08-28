@@ -15,7 +15,8 @@ public class World {
 	private int mapCols, mapRows;
 	private int width, height;
 	public static final int tileSize = Art.artResize;
-	
+	private int xStart, xEnd, yStart, yEnd;
+
 	public World(Game game) {
 		this.game = game;
 	}
@@ -27,25 +28,32 @@ public class World {
 	public void render(Graphics2D g2) {
 //		g2.drawImage(getImage(1,1),0,0,32,32,null);
 
-		for (int i = 0; i < mapRows; i++) {
-			for (int j = 0; j < mapCols; j++) {
-				g2.drawImage(getImage(j,i), i * tileSize - game.getCamera().getoffsetX(), j * tileSize - game.getCamera().getoffsetY(), tileSize, tileSize, null);
+		xStart = Math.max(0, game.getCamera().getoffsetX() / tileSize);
+		xEnd = Math.min(mapCols, (game.getCamera().getoffsetX() + game.getWidth()) / tileSize + 1);
+
+		yStart = Math.max(0, game.getCamera().getoffsetY() / tileSize);
+		yEnd = Math.min(mapRows, (game.getCamera().getoffsetY() + game.getHeight()) / tileSize + 1);
+
+		for (int i = xStart; i < xEnd; i++) {
+			for (int j = yStart; j < yEnd; j++) {
+				g2.drawImage(getImage(j, i), i * tileSize - game.getCamera().getoffsetX(),
+						j * tileSize - game.getCamera().getoffsetY(), tileSize, tileSize, null);
 			}
 		}
 	}
 
 	private BufferedImage getImage(int x, int y) {
 		BufferedImage img = game.getArt().cement;
-		
+
 		if (map[x][y] == 1)
 			img = game.getArt().water;
 		else if (map[x][y] == 2)
 			img = game.getArt().grass;
 		else if (map[x][y] == 3)
 			img = game.getArt().dirt;
-		else if(map[x][y] == 4)
+		else if (map[x][y] == 4)
 			img = game.getArt().tree;
-		
+
 		return img;
 	}
 
@@ -58,20 +66,18 @@ public class World {
 		// first 2 counter tokens to find the max rows and cols
 		mapRows = Integer.parseInt(tokens[0]);
 		mapCols = Integer.parseInt(tokens[1]);
-		width = mapCols*tileSize;
-		height = mapRows*tileSize;
+		width = mapCols * tileSize;
+		height = mapRows * tileSize;
 
 		map = new int[mapRows][mapCols];
-		
+
 		for (int i = 0; i < mapRows; i++) {
 			for (int j = 0; j < mapCols; j++) {
 
 				/*
-				 * start from row = 3 and count till the end 
-				 * math: (j+i*rows)+2; 
-				 * (0+0*5)+2 = [2]-> 3rd element -> 1st row 1st col 
-				 * (1+0*5)+2 = [3]-> 4th element -> 1st row 2nd col 
-				 * (1+1*5)+2 = [8]-> 9th element -> 2nd row 2nd col
+				 * start from row = 3 and count till the end math: (j+i*rows)+2; (0+0*5)+2 =
+				 * [2]-> 3rd element -> 1st row 1st col (1+0*5)+2 = [3]-> 4th element -> 1st row
+				 * 2nd col (1+1*5)+2 = [8]-> 9th element -> 2nd row 2nd col
 				 */
 
 				map[i][j] = Integer.parseInt(tokens[(j + i * mapRows) + 2]);

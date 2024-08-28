@@ -72,17 +72,6 @@ public class Game extends JPanel {
 		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released A"), "stop_player");
 		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released D"), "stop_player");
 
-		// Arrow Keys
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed UP"), "move_player_up");
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed DOWN"), "move_player_down");
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed LEFT"), "move_player_left");
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("pressed RIGHT"), "move_player_right");
-
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released UP"), "stop_player");
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released LEFT"), "stop_player");
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released DOWN"), "stop_player");
-		getInputMap(InFocus).put(KeyStroke.getKeyStroke("released RIGHT"), "stop_player");
-
 		// Action maps
 		getActionMap().put("move_player_up", new MovePlayer(1));
 		getActionMap().put("move_player_down", new MovePlayer(2));
