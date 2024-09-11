@@ -97,6 +97,10 @@ public class SidePanel extends JPanel implements ActionListener {
 		add(pnl);
 	}
 
+	public void setInteract(boolean state) {
+		btnAction.setEnabled(state);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -108,11 +112,11 @@ public class SidePanel extends JPanel implements ActionListener {
 				System.exit(0);
 			}
 		} else if (e.getSource() == btnMap) {
-			if(btnMap.getModel().isSelected())
+			if (btnMap.getModel().isSelected())
 				engine.showPanel("map");
 			else
 				engine.showPanel("game");
-			
+
 		} else if (e.getSource() == btnQuests) {
 			// Code will be added in the future
 		} else if (e.getSource() == btnBag) {

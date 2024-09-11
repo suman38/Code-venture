@@ -56,7 +56,6 @@ public class Game extends JPanel {
 
 		world.render(g2);
 		player.render(g2);
-
 		g2.dispose();
 	}
 

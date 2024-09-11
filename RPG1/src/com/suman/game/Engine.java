@@ -97,4 +97,8 @@ public class Engine extends JPanel {
 	public Game getGame() {
 		return game;
 	}
+
+	public SidePanel getSidePanel() {
+		return sidePanel;
+	}
 }

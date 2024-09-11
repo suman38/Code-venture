@@ -21,8 +21,14 @@ public class World {
 		this.game = game;
 	}
 
-	public void tick() {
+	public boolean isSolid(int x, int y) {
+		if (map[y][x] == 1 || map[y][x] == 4)
+			return true;
+		else
+			return false;
+	}
 
+	public void tick() {
 	}
 
 	public void render(Graphics2D g2) {
@@ -74,11 +80,11 @@ public class World {
 		for (int i = 0; i < mapRows; i++) {
 			for (int j = 0; j < mapCols; j++) {
 
-				/*
-				 * start from row = 3 and count till the end math: (j+i*rows)+2; (0+0*5)+2 =
-				 * [2]-> 3rd element -> 1st row 1st col (1+0*5)+2 = [3]-> 4th element -> 1st row
-				 * 2nd col (1+1*5)+2 = [8]-> 9th element -> 2nd row 2nd col
-				 */
+//			start from row = 3 and count till the end 
+//			math: (j+i*rows)+2; 
+//			(0+0*5)+2 = [2]-> 3rd element -> 1st row 1st col 
+//			(1+0*5)+2 = [3]-> 4th element -> 1st row 2nd col 
+//			(1+1*5)+2 = [8]-> 9th element -> 2nd row 2nd col
 
 				map[i][j] = Integer.parseInt(tokens[(j + i * mapRows) + 2]);
 //				System.out.print(map[i][j]);
