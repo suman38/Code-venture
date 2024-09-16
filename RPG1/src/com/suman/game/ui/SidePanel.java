@@ -123,7 +123,7 @@ public class SidePanel extends JPanel implements ActionListener {
 			// Code will be added in the future
 		} else if (e.getSource() == btnAction) {
 			// Code will be added in the future
-			player.interact();
+//			player.interact();
 		}
 	}
 }

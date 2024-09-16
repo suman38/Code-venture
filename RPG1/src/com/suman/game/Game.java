@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -12,7 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import com.suman.game.art.Art;
+import com.suman.game.entities.InteractableObject;
 import com.suman.game.entities.Player;
+import com.suman.game.entities.objects.Box;
 import com.suman.game.worldtiles.World;
 
 public class Game extends JPanel {
@@ -22,6 +26,8 @@ public class Game extends JPanel {
 	private World world;
 	private Player player;
 	private Camera camera;
+
+	private List<InteractableObject> gameObjects;
 
 	private final int InFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	private int playerDirection = 0;
@@ -39,6 +45,13 @@ public class Game extends JPanel {
 		player = new Player(this);
 		camera = new Camera(this);
 
+		gameObjects = new ArrayList<InteractableObject>();
+		gameObjects.add(new Box(this, 12, 6));
+		gameObjects.add(new Box(this, 2, 12));
+		gameObjects.add(new Box(this, 17, 11));
+		gameObjects.add(new Box(this, 19, 21));
+		gameObjects.add(new Box(this, 6, 20));
+
 		assignKeyBindings();
 	}
 
@@ -46,8 +59,25 @@ public class Game extends JPanel {
 		world.tick();
 		player.tick();
 		camera.centerOnPlayer();
-	}
 
+		for (InteractableObject obj : gameObjects) {
+			obj.tick();
+		}
+		
+		checkCollisions();
+	}
+	
+	private void checkCollisions()
+	{
+		for(InteractableObject obj : gameObjects)
+		{
+			if(obj.getBounds().intersects(player.getBounds()))
+			{
+				player.interact(obj);
+			}
+		}
+	}
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -55,7 +85,13 @@ public class Game extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 
 		world.render(g2);
+
+		for (InteractableObject obj : gameObjects) {
+			obj.render(g2);
+		}
+
 		player.render(g2);
+
 		g2.dispose();
 	}
 
