@@ -18,6 +18,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import com.suman.game.Engine;
+import com.suman.game.entities.InteractableObject;
 import com.suman.game.entities.Player;
 
 public class SidePanel extends JPanel implements ActionListener {
@@ -26,6 +27,7 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	private Engine engine;
 	private Player player;
+	private InteractableObject obj;
 
 	private JToggleButton btnBag, btnMap, btnQuests;
 	private JButton btnAction, btnExit;
@@ -35,6 +37,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public SidePanel(Engine engine) {
 		this.engine = engine;
 		this.player = engine.getGame().getPlayer();
+		
 		setBackground(Color.DARK_GRAY);
 		setPreferredSize(new Dimension(160, 480));
 
@@ -97,8 +100,9 @@ public class SidePanel extends JPanel implements ActionListener {
 		add(pnl);
 	}
 
-	public void setInteract(boolean state) {
+	public void setInteract(boolean state, InteractableObject obj) {
 		btnAction.setEnabled(state);
+		this.obj = obj;
 	}
 
 	@Override
@@ -122,8 +126,8 @@ public class SidePanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == btnBag) {
 			// Code will be added in the future
 		} else if (e.getSource() == btnAction) {
-			// Code will be added in the future
-//			player.interact();
+			// code will be added in the future
+			player.interact(obj);
 		}
 	}
 }

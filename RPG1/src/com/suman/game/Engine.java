@@ -37,7 +37,7 @@ public class Engine extends JPanel {
 		setFocusable(true);
 		setLayout(new BorderLayout());
 
-		game = new Game(); // Game Area
+		game = new Game(this); // Game Area
 
 		topPanel = new TopPanel(game.getPlayer());
 		sidePanel = new SidePanel(this);

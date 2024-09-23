@@ -22,10 +22,14 @@ import com.suman.game.worldtiles.World;
 public class Game extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	private Engine engine;
+	
 	private Art art;
 	private World world;
 	private Player player;
 	private Camera camera;
+	
+	private InteractableObject iobj;
 
 	private List<InteractableObject> gameObjects;
 
@@ -33,7 +37,8 @@ public class Game extends JPanel {
 	private int playerDirection = 0;
 
 	// This is for rendering the game area
-	public Game() {
+	public Game(Engine engine) {
+		this.engine = engine;
 		setPreferredSize(new Dimension(640, 480));
 		setBackground(Color.BLACK);
 
@@ -63,21 +68,25 @@ public class Game extends JPanel {
 		for (InteractableObject obj : gameObjects) {
 			obj.tick();
 		}
-		
-		checkCollisions();
+
+		if(checkCollisions())
+			engine.getSidePanel().setInteract(true, iobj);
+		else
+			engine.getSidePanel().setInteract(false,null);
 	}
-	
-	private void checkCollisions()
-	{
-		for(InteractableObject obj : gameObjects)
-		{
-			if(obj.getBounds().intersects(player.getBounds()))
-			{
-				player.interact(obj);
+
+	private boolean checkCollisions() {
+		for (InteractableObject obj : gameObjects) {
+			if (obj.getBounds().intersects(player.getBounds())) {
+				// interaction must happen here
+				iobj = obj;
+				return true;
 			}
 		}
+
+		return false;
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
