@@ -37,7 +37,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public SidePanel(Engine engine) {
 		this.engine = engine;
 		this.player = engine.getGame().getPlayer();
-		
+
 		setBackground(Color.DARK_GRAY);
 		setPreferredSize(new Dimension(160, 480));
 
@@ -122,9 +122,9 @@ public class SidePanel extends JPanel implements ActionListener {
 				engine.showPanel("game");
 
 		} else if (e.getSource() == btnQuests) {
-			// Code will be added in the future
+			// code will be added in the future
 		} else if (e.getSource() == btnBag) {
-			// Code will be added in the future
+			// code will be added in the future
 		} else if (e.getSource() == btnAction) {
 			// code will be added in the future
 			player.interact(obj);

@@ -17,12 +17,15 @@ import com.suman.game.art.Art;
 import com.suman.game.entities.InteractableObject;
 import com.suman.game.entities.Player;
 import com.suman.game.entities.objects.Box;
+import com.suman.game.items.ItemManager;
 import com.suman.game.worldtiles.World;
 
 public class Game extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Engine engine;
+	
+	public ItemManager iManager;
 	
 	private Art art;
 	private World world;
@@ -41,6 +44,8 @@ public class Game extends JPanel {
 		this.engine = engine;
 		setPreferredSize(new Dimension(640, 480));
 		setBackground(Color.BLACK);
+
+		iManager = new ItemManager();
 
 		art = new Art();
 
@@ -152,6 +157,10 @@ public class Game extends JPanel {
 		return camera;
 	}
 
+	public ItemManager getItemManager() {
+		return iManager;
+	}
+	
 	private class MovePlayer extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 		private int dir;

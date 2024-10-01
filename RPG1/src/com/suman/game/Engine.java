@@ -18,7 +18,7 @@ public class Engine extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public static final int GameWidth = 800, GameHeight = 600;
-
+	
 	private Timer gameTimer;
 	private int delay = 16; // 1000 millisec = 1sec, 33ms = ~30fps, 16 = ~60fps
 
@@ -36,7 +36,7 @@ public class Engine extends JPanel {
 		setDoubleBuffered(true);
 		setFocusable(true);
 		setLayout(new BorderLayout());
-
+		
 		game = new Game(this); // Game Area
 
 		topPanel = new TopPanel(game.getPlayer());
@@ -57,19 +57,25 @@ public class Engine extends JPanel {
 	}
 
 	public void showPanel(String s) {
-		if (s.equals("game")) {
-			if (!gameTimer.isRunning())
-				gameTimer.restart();
 
+		if (gameTimer.isRunning())
+			gameTimer.stop();
+		else
+			gameTimer.restart();
+
+		if (s.equals("game")) {
 			currentCard = 1;
 		} else if (s.equals("map")) {
-			if (gameTimer.isRunning())
-				gameTimer.stop();
-
 			currentCard = 2;
+		} else if (s.equals("bag")) {
+			currentCard = 3;
+		} else if (s.equals("quests")) {
+			currentCard = 4;
+		} else if (s.equals("interact")) {
+			currentCard = 5;
 		}
-		cardLayout.show(centerPanel, "" + currentCard);
 
+		cardLayout.show(centerPanel, "" + currentCard);
 	}
 
 	public void startGame() {

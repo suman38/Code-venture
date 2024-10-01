@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 
 import com.suman.game.Game;
 import com.suman.game.art.Art;
+import com.suman.game.bag.Inventory;
+import com.suman.game.bag.InventorySlot;
 import com.suman.game.worldtiles.World;
 
 public class Player {
@@ -25,6 +27,8 @@ public class Player {
 	// I am adding this to avoid confusion in the math
 	private Rectangle bounds;
 
+	private Inventory bag;
+	
 	public Player(Game game) {
 		this.game = game;
 
@@ -41,6 +45,22 @@ public class Player {
 		// As explained in the video.
 //		bounds = new Rectangle(16, 30, 31, 31);
 		bounds = new Rectangle(0, 0, (Art.artResize / 2) - 1, (Art.artResize / 2) - 1);
+		
+		bag = new Inventory();
+		
+		bag.addItem(1, 10);
+		bag.addItem(2, 20);
+		bag.addItem(1, 5);
+		bag.addItem(1, 30);
+		bag.addItem(2, 100);
+		bag.addItem(3, 50);
+		bag.addItem(3, 23);
+		
+		for(InventorySlot it : bag.getItems())
+		{
+			System.out.print(game.getItemManager().getGameItem(it.getItemId()).getItemName());
+			System.out.println("x"+it.getItemAmount());
+		}
 	}
 
 	public void tick() {
