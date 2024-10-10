@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.suman.game.ui.BagPanel;
 import com.suman.game.ui.MapPanel;
 import com.suman.game.ui.SidePanel;
 import com.suman.game.ui.TopPanel;
@@ -18,7 +19,7 @@ public class Engine extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public static final int GameWidth = 800, GameHeight = 600;
-	
+
 	private Timer gameTimer;
 	private int delay = 16; // 1000 millisec = 1sec, 33ms = ~30fps, 16 = ~60fps
 
@@ -29,6 +30,7 @@ public class Engine extends JPanel {
 	private SidePanel sidePanel;
 	private JPanel centerPanel;
 	private MapPanel mapPanel;
+	private BagPanel bagPanel;
 	private Game game;
 
 	public Engine() {
@@ -36,13 +38,14 @@ public class Engine extends JPanel {
 		setDoubleBuffered(true);
 		setFocusable(true);
 		setLayout(new BorderLayout());
-		
+
 		game = new Game(this); // Game Area
 
 		topPanel = new TopPanel(game.getPlayer());
 		sidePanel = new SidePanel(this);
 
 		mapPanel = new MapPanel();
+		bagPanel = new BagPanel(game);
 
 		cardLayout = new CardLayout();
 		centerPanel = new JPanel();
@@ -50,6 +53,7 @@ public class Engine extends JPanel {
 
 		centerPanel.add(game, "1");
 		centerPanel.add(mapPanel, "2");
+		centerPanel.add(bagPanel, "3");
 
 		add(topPanel, "North");
 		add(sidePanel, "East");
@@ -106,5 +110,9 @@ public class Engine extends JPanel {
 
 	public SidePanel getSidePanel() {
 		return sidePanel;
+	}
+
+	public BagPanel getBagPanel() {
+		return bagPanel;
 	}
 }

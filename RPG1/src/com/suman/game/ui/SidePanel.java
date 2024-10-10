@@ -124,7 +124,14 @@ public class SidePanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == btnQuests) {
 			// code will be added in the future
 		} else if (e.getSource() == btnBag) {
-			// code will be added in the future
+			if (btnBag.getModel().isSelected()) {
+				// this will make sure we are updating the view of the bag
+				// every time we pick or drop items from it.
+				engine.getBagPanel().updateBagView();
+				engine.showPanel("bag");
+			} else {
+				engine.showPanel("game");
+			}
 		} else if (e.getSource() == btnAction) {
 			// code will be added in the future
 			player.interact(obj);
