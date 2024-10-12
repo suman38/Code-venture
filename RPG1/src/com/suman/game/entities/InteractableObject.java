@@ -31,6 +31,8 @@ public abstract class InteractableObject {
 	public abstract void render(Graphics2D g2);
 
 	public abstract void interact();
+	
+	public abstract int dropItem();
 
 	public int getX() {
 		return x;

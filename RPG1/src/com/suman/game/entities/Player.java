@@ -161,6 +161,28 @@ public class Player {
 	}
 
 	public void interact(InteractableObject obj) {
+
+		// this exception happened because I returned 0
+		// no item exists in id = 0;
+
+		if (!obj.interacted) {
+			
+			int item = obj.dropItem();
+			if (item != 0) {
+				int amount = (int)(Math.random()*5)+1;
+				
+				System.out.println("You got: " + game.getItemManager().getGameItem(item).getItemName()+" x "+amount);
+				bag.addItem(item, amount);
+			}
+			else {
+				System.out.println("--Empty--");
+			}
+		}
+		else
+		{
+			System.out.println("--Already interacted--");
+		}
+		
 		obj.interact();
 	}
 
