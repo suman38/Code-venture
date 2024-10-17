@@ -32,9 +32,11 @@ public class Player {
 		this.game = game;
 
 		// player spawn points on the map
-		x = 3 * World.tileSize;
-		y = 4 * World.tileSize;
+//		x = 3 * World.tileSize;
+//		y = 4 * World.tileSize;
 
+		setSpawn(3, 4);
+		
 		maxHp = 100;
 		maxMp = 50;
 		hp = maxHp;
@@ -59,6 +61,11 @@ public class Player {
 //			System.out.print(game.getItemManager().getGameItem(it.getItemId()).getItemName());
 //			System.out.println("x" + it.getItemAmount());
 //		}
+	}
+
+	public void setSpawn(int sX, int sY) {
+		this.x = sX * World.tileSize;
+		this.y = sY * World.tileSize;
 	}
 
 	public void tick() {
@@ -166,23 +173,21 @@ public class Player {
 		// no item exists in id = 0;
 
 		if (!obj.interacted) {
-			
+
 			int item = obj.dropItem();
 			if (item != 0) {
-				int amount = (int)(Math.random()*5)+1;
-				
-				System.out.println("You got: " + game.getItemManager().getGameItem(item).getItemName()+" x "+amount);
+				int amount = (int) (Math.random() * 5) + 1;
+
+				System.out
+						.println("You got: " + game.getItemManager().getGameItem(item).getItemName() + " x " + amount);
 				bag.addItem(item, amount);
-			}
-			else {
+			} else {
 				System.out.println("--Empty--");
 			}
-		}
-		else
-		{
+		} else {
 			System.out.println("--Already interacted--");
 		}
-		
+
 		obj.interact();
 	}
 

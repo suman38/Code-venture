@@ -16,6 +16,7 @@ import javax.swing.KeyStroke;
 import com.suman.game.art.Art;
 import com.suman.game.entities.InteractableObject;
 import com.suman.game.entities.Player;
+import com.suman.game.entities.objects.ActionBox;
 import com.suman.game.entities.objects.Box;
 import com.suman.game.items.ItemManager;
 import com.suman.game.worldtiles.World;
@@ -24,14 +25,14 @@ public class Game extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Engine engine;
-	
+
 	public ItemManager iManager;
-	
+
 	private Art art;
 	private World world;
 	private Player player;
 	private Camera camera;
-	
+
 	private InteractableObject iobj;
 
 	private List<InteractableObject> gameObjects;
@@ -62,6 +63,8 @@ public class Game extends JPanel {
 		gameObjects.add(new Box(this, 19, 21));
 		gameObjects.add(new Box(this, 6, 20));
 
+		gameObjects.add(new ActionBox(this, 24, 13));
+
 		assignKeyBindings();
 	}
 
@@ -74,18 +77,23 @@ public class Game extends JPanel {
 			obj.tick();
 		}
 
-		if(checkCollisions())
+		if (checkCollisions())
 			engine.getSidePanel().setInteract(true, iobj);
 		else
-			engine.getSidePanel().setInteract(false,null);
+			engine.getSidePanel().setInteract(false, null);
 	}
 
 	private boolean checkCollisions() {
 		for (InteractableObject obj : gameObjects) {
 			if (obj.getBounds().intersects(player.getBounds())) {
-				// interaction must happen here
-				iobj = obj;
-				return true;
+
+				if (obj instanceof Box) {// interaction must happen here
+					iobj = obj;
+					return true;
+				} else if (obj instanceof ActionBox) {
+					world.loadWorld("sample1");
+					player.setSpawn(2, 2);
+				}
 			}
 		}
 
@@ -160,7 +168,7 @@ public class Game extends JPanel {
 	public ItemManager getItemManager() {
 		return iManager;
 	}
-	
+
 	private class MovePlayer extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 		private int dir;
