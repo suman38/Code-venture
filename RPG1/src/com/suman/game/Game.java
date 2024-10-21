@@ -86,13 +86,13 @@ public class Game extends JPanel {
 	private boolean checkCollisions() {
 		for (InteractableObject obj : gameObjects) {
 			if (obj.getBounds().intersects(player.getBounds())) {
-
-				if (obj instanceof Box) {// interaction must happen here
+				if (obj instanceof Box) {
+					// interaction must happen here
 					iobj = obj;
 					return true;
 				} else if (obj instanceof ActionBox) {
 					world.loadWorld("sample1");
-					player.setSpawn(2, 2);
+					player.setSpawn(3, 3);
 				}
 			}
 		}

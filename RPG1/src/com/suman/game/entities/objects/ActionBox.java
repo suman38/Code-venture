@@ -5,13 +5,15 @@ import java.awt.Graphics2D;
 import com.suman.game.Game;
 import com.suman.game.entities.InteractableObject;
 
-public class ActionBox extends InteractableObject {
+public class ActionBox extends InteractableObject{
 
 	public ActionBox(Game game, int indexX, int indexY) {
 		super(game, indexX, indexY);
-
+		// TODO Auto-generated constructor stub
+		
 		bounds.x = x;
 		bounds.y = y;
+		
 	}
 
 	@Override

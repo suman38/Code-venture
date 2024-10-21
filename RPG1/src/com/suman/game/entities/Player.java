@@ -34,9 +34,9 @@ public class Player {
 		// player spawn points on the map
 //		x = 3 * World.tileSize;
 //		y = 4 * World.tileSize;
-
-		setSpawn(3, 4);
 		
+		setSpawn(3,4);
+
 		maxHp = 100;
 		maxMp = 50;
 		hp = maxHp;
@@ -63,9 +63,9 @@ public class Player {
 //		}
 	}
 
-	public void setSpawn(int sX, int sY) {
-		this.x = sX * World.tileSize;
-		this.y = sY * World.tileSize;
+	public void setSpawn(int sx, int sy) {
+		x = sx * World.tileSize;
+		y = sy * World.tileSize;
 	}
 
 	public void tick() {
