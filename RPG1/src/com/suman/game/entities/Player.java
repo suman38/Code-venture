@@ -7,6 +7,10 @@ import java.awt.image.BufferedImage;
 import com.suman.game.Game;
 import com.suman.game.art.Art;
 import com.suman.game.bag.Inventory;
+import com.suman.game.entities.npcs.CommonerNPC;
+import com.suman.game.entities.npcs.HealerNPC;
+import com.suman.game.entities.npcs.MayorNPC;
+import com.suman.game.entities.npcs.ShopNPC;
 import com.suman.game.worldtiles.World;
 
 public class Player {
@@ -34,8 +38,6 @@ public class Player {
 		// player spawn points on the map
 //		x = 3 * World.tileSize;
 //		y = 4 * World.tileSize;
-		
-		setSpawn(3,4);
 
 		maxHp = 100;
 		maxMp = 50;
@@ -49,13 +51,13 @@ public class Player {
 
 		bag = new Inventory();
 
-		bag.addItem(1, 10);
-		bag.addItem(2, 20);
-		bag.addItem(1, 5);
-		bag.addItem(1, 30);
-		bag.addItem(2, 100);
-		bag.addItem(3, 50);
-		bag.addItem(3, 23);
+//		bag.addItem(1, 10);
+//		bag.addItem(2, 20);
+//		bag.addItem(1, 5);
+//		bag.addItem(1, 30);
+//		bag.addItem(2, 100);
+//		bag.addItem(3, 50);
+//		bag.addItem(3, 23);
 
 //		for (InventorySlot it : bag.getItems()) {
 //			System.out.print(game.getItemManager().getGameItem(it.getItemId()).getItemName());
@@ -172,23 +174,47 @@ public class Player {
 		// this exception happened because I returned 0
 		// no item exists in id = 0;
 
-		if (!obj.interacted) {
+		if (!(obj instanceof NPC)) {
+			if (!obj.interacted) {
 
-			int item = obj.dropItem();
-			if (item != 0) {
-				int amount = (int) (Math.random() * 5) + 1;
+				int item = obj.dropItem();
+				if (item != 0) {
+					int amount = (int) (Math.random() * 5) + 1;
 
-				System.out
-						.println("You got: " + game.getItemManager().getGameItem(item).getItemName() + " x " + amount);
-				bag.addItem(item, amount);
+					System.out.println(
+							"You got: " + game.getItemManager().getGameItem(item).getItemName() + " x " + amount);
+					bag.addItem(item, amount);
+				} else {
+					System.out.println("--Empty--");
+				}
 			} else {
-				System.out.println("--Empty--");
+				System.out.println("--Already interacted--");
 			}
+			obj.interact();
 		} else {
-			System.out.println("--Already interacted--");
-		}
+			NPC n1 = (NPC) obj;
+			switch (n1.getNpcId()) {
+			case 1:
+				CommonerNPC c1 = (CommonerNPC) n1;
+				c1.interact();
+				break;
 
-		obj.interact();
+			case 2:
+				ShopNPC s1 = (ShopNPC) n1;
+				s1.interact();
+				break;
+			
+			case 3:
+				HealerNPC h1 = (HealerNPC) n1;
+				h1.interact();
+				break;
+
+			case 4:
+				MayorNPC m1 = (MayorNPC) n1;
+				m1.interact();
+				break;
+			}
+		}
 	}
 
 	public void movePlayerHorizontally(int flag) {

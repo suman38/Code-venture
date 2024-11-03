@@ -1,0 +1,18 @@
+{
+    "name": "grass2_data",
+    "spawn_location": [
+        {
+            "x": 1,
+            "y": 4
+        }
+    ],
+    "treasure_boxes": [],
+    "action_boxes": [
+        {
+            "x": 0,
+            "y": 4,
+			"next_map":"grass1"
+        }
+    ],
+	"npcs":[]
+}

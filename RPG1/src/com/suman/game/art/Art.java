@@ -10,6 +10,7 @@ public class Art {
 	private SpriteSheet playersheet;
 	private SpriteSheet tileSheet;
 	private SpriteSheet objectsSheet;
+	private SpriteSheet npcSheet;
 
 	public BufferedImage[] playerMovingDown;
 	public BufferedImage[] playerMovingUp;
@@ -21,11 +22,14 @@ public class Art {
 	public BufferedImage grass, water, dirt, cement, rock, tree;
 	
 	public BufferedImage[] box;
+	
+	public BufferedImage npc_common1, npc_common2, npc_healer, npc_shop;
 
 	public Art() {
 		playersheet = new SpriteSheet("/playerimages/player_sheet_16x16.png");
 		tileSheet = new SpriteSheet("/tiles/tile_sheet2.png");
 		objectsSheet = new SpriteSheet("/objects/boxes_16x16.png");
+		npcSheet = new SpriteSheet("/misc/npcsheet_32x32.png");
 
 		playerMovingDown = new BufferedImage[4];
 		playerMovingDown[0] = playersheet.crop(artSize, 0, artSize, artSize);
@@ -66,5 +70,10 @@ public class Art {
 		box = new BufferedImage[2];
 		box[0] = objectsSheet.crop(0, 0, artSize, artSize);
 		box[1] = objectsSheet.crop(artSize, 0, artSize, artSize);
+		
+		npc_common1 = npcSheet.crop(0, 0, artSize, artSize);
+		npc_common2 = npcSheet.crop(artSize, 0, artSize, artSize);
+		npc_shop = npcSheet.crop(artSize, artSize, artSize, artSize);
+		npc_healer = npcSheet.crop(0, artSize, artSize, artSize);			
 	}
 }

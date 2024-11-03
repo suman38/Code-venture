@@ -5,15 +5,17 @@ import java.awt.Graphics2D;
 import com.suman.game.Game;
 import com.suman.game.entities.InteractableObject;
 
-public class ActionBox extends InteractableObject{
+public class ActionBox extends InteractableObject {
 
-	public ActionBox(Game game, int indexX, int indexY) {
+	private String next_map;
+
+	public ActionBox(Game game, int indexX, int indexY, String next_map) {
 		super(game, indexX, indexY);
-		// TODO Auto-generated constructor stub
-		
-		bounds.x = x;
-		bounds.y = y;
-		
+		this.next_map = next_map;
+	}
+
+	public String getNextMap() {
+		return next_map;
 	}
 
 	@Override

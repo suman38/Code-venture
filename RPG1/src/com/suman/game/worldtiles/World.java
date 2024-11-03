@@ -2,23 +2,42 @@ package com.suman.game.worldtiles;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.suman.game.Game;
 import com.suman.game.art.Art;
+import com.suman.game.entities.InteractableObject;
+import com.suman.game.entities.npcs.CommonerNPC;
+import com.suman.game.entities.npcs.HealerNPC;
+import com.suman.game.entities.npcs.MayorNPC;
+import com.suman.game.entities.npcs.ShopNPC;
+import com.suman.game.entities.objects.ActionBox;
+import com.suman.game.entities.objects.Box;
 import com.suman.game.utils.StringUtils;
 
 public class World {
 
 	private Game game;
 	private String path = "res/maps/";
+	private String dataPath = "res/mapdata/";
 	private int[][] map;
 	private int mapCols, mapRows;
 	private int width, height;
 	public static final int tileSize = Art.artResize;
 	private int xStart, xEnd, yStart, yEnd;
 
+	private List<InteractableObject> gameObjects;
+
 	public World(Game game) {
 		this.game = game;
+
+		gameObjects = new ArrayList<InteractableObject>();
+//		gameObjects.add(new CommonerNPC(game, 3, 6));
+//		gameObjects.add(new ShopNPC(game, 9, 6));
 	}
 
 	public boolean isSolid(int x, int y) {
@@ -63,6 +82,57 @@ public class World {
 		return img;
 	}
 
+	public void loadMapData(String name) {
+
+		gameObjects.clear();
+
+//		System.out.println(StringUtils.loadMapData(dataPath+name+"_data.json"));
+		JSONObject data = new JSONObject(StringUtils.loadMapData(dataPath + name + "_data.json"));
+
+//		 System.out.println(data.get("name"));
+
+		JSONArray spawnArray = data.getJSONArray("spawn_location");
+		JSONObject spawnObj = spawnArray.getJSONObject(0);
+		game.getPlayer().setSpawn(spawnObj.getInt("x"), spawnObj.getInt("y"));
+
+		JSONArray arr1 = data.getJSONArray("treasure_boxes");
+		for (int i = 0; i < arr1.length(); i++) {
+//			System.out.println(arr1.get(i));
+			JSONObject obj = arr1.getJSONObject(i);
+			gameObjects.add(new Box(game, obj.getInt("x"), obj.getInt("y")));
+		}
+
+		JSONArray arr2 = data.getJSONArray("action_boxes");
+		for (int i = 0; i < arr2.length(); i++) {
+			JSONObject obj = arr2.getJSONObject(i);
+			gameObjects.add(new ActionBox(game, obj.getInt("x"), obj.getInt("y"), obj.getString("next_map")));
+		}
+
+		JSONArray arr3 = data.getJSONArray("npcs");
+		for (int i = 0; i < arr3.length(); i++) {
+			JSONObject obj = arr3.getJSONObject(i);
+			// here we will need an id to differentiate the npcs.
+			switch (obj.getInt("id")) {
+			case 1:
+				gameObjects.add(new CommonerNPC(game, obj.getInt("x"), obj.getInt("y")));
+				break;
+
+			case 2:
+				gameObjects.add(new ShopNPC(game, obj.getInt("x"), obj.getInt("y")));
+				break;
+
+			case 3:
+				gameObjects.add(new HealerNPC(game, obj.getInt("x"), obj.getInt("y")));
+				break;
+
+			case 4:
+				gameObjects.add(new MayorNPC(game, obj.getInt("x"), obj.getInt("y")));
+				break;
+			}
+
+		}
+	}
+
 	public void loadWorld(String name) {
 		String[] tokens = StringUtils.loadFileAsString(path + name + ".txt").split("\\s+");
 
@@ -91,6 +161,8 @@ public class World {
 			}
 //			System.out.println();
 		}
+
+		loadMapData(name);
 	}
 
 	public int getWidth() {
@@ -99,5 +171,9 @@ public class World {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public List<InteractableObject> getGameObjects() {
+		return gameObjects;
 	}
 }

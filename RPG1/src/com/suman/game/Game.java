@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -15,6 +13,7 @@ import javax.swing.KeyStroke;
 
 import com.suman.game.art.Art;
 import com.suman.game.entities.InteractableObject;
+import com.suman.game.entities.NPC;
 import com.suman.game.entities.Player;
 import com.suman.game.entities.objects.ActionBox;
 import com.suman.game.entities.objects.Box;
@@ -35,8 +34,6 @@ public class Game extends JPanel {
 
 	private InteractableObject iobj;
 
-	private List<InteractableObject> gameObjects;
-
 	private final int InFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	private int playerDirection = 0;
 
@@ -47,25 +44,14 @@ public class Game extends JPanel {
 		setBackground(Color.BLACK);
 
 		iManager = new ItemManager();
-
 		art = new Art();
-
 		world = new World(this);
-		world.loadWorld("grass1");
-
 		player = new Player(this);
 		camera = new Camera(this);
 
-		gameObjects = new ArrayList<InteractableObject>();
-		gameObjects.add(new Box(this, 12, 6));
-		gameObjects.add(new Box(this, 2, 12));
-		gameObjects.add(new Box(this, 17, 11));
-		gameObjects.add(new Box(this, 19, 21));
-		gameObjects.add(new Box(this, 6, 20));
-
-		gameObjects.add(new ActionBox(this, 24, 13));
-
 		assignKeyBindings();
+		world.loadWorld("grass2");
+//		player.setSpawn(3, 3);
 	}
 
 	public void tick() {
@@ -73,7 +59,7 @@ public class Game extends JPanel {
 		player.tick();
 		camera.centerOnPlayer();
 
-		for (InteractableObject obj : gameObjects) {
+		for (InteractableObject obj : world.getGameObjects()) {
 			obj.tick();
 		}
 
@@ -84,19 +70,21 @@ public class Game extends JPanel {
 	}
 
 	private boolean checkCollisions() {
-		for (InteractableObject obj : gameObjects) {
+
+		var x = world.getGameObjects().toArray();
+//		for(InteractableObject obj : world.getGameObjects()) {
+		for (int i = 0; i < x.length; i++) {
+			InteractableObject obj = (InteractableObject) x[i];
 			if (obj.getBounds().intersects(player.getBounds())) {
-				if (obj instanceof Box) {
-					// interaction must happen here
+				if (obj instanceof Box || obj instanceof NPC) {
+//					interaction must happen here
 					iobj = obj;
 					return true;
 				} else if (obj instanceof ActionBox) {
-					world.loadWorld("sample1");
-					player.setSpawn(3, 3);
+					world.loadWorld(((ActionBox)obj).getNextMap());
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -108,7 +96,7 @@ public class Game extends JPanel {
 
 		world.render(g2);
 
-		for (InteractableObject obj : gameObjects) {
+		for (InteractableObject obj : world.getGameObjects()) {
 			obj.render(g2);
 		}
 

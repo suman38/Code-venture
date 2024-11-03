@@ -23,7 +23,7 @@ public abstract class InteractableObject {
 		this.x = indexX * World.tileSize;
 		this.y = indexY * World.tileSize;
 
-		bounds = new Rectangle(0, 0, objectSize, objectSize);
+		bounds = new Rectangle(x, y, objectSize, objectSize);
 	}
 
 	public abstract void tick();
