@@ -9,15 +9,15 @@ public class MainClass1 {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				Engine g = new Engine();
+				Engine e = new Engine();
 				JFrame frm = new JFrame("Game");
-				frm.add(g);
+				frm.add(e);
 				frm.pack();
 				frm.setLocationRelativeTo(null);
 				frm.setResizable(false);
 				frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frm.setVisible(true);
-				g.startGame();
+//				g.startGame();
 			}
 		});
 	}

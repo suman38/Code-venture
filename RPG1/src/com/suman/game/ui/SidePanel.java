@@ -17,15 +17,15 @@ import javax.swing.JToggleButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import com.suman.game.Engine;
 import com.suman.game.entities.InteractableObject;
 import com.suman.game.entities.Player;
+import com.suman.game.states.GameState;
 
 public class SidePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private Engine engine;
+	private GameState engine;
 	private Player player;
 	private InteractableObject obj;
 
@@ -34,7 +34,7 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	private TitledBorder titledBorder;
 
-	public SidePanel(Engine engine) {
+	public SidePanel(GameState engine) {
 		this.engine = engine;
 		this.player = engine.getGame().getPlayer();
 

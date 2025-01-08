@@ -18,12 +18,13 @@ import com.suman.game.entities.Player;
 import com.suman.game.entities.objects.ActionBox;
 import com.suman.game.entities.objects.Box;
 import com.suman.game.items.ItemManager;
+import com.suman.game.states.GameState;
 import com.suman.game.worldtiles.World;
 
 public class Game extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private Engine engine;
+	private GameState engine;
 
 	public ItemManager iManager;
 
@@ -38,7 +39,7 @@ public class Game extends JPanel {
 	private int playerDirection = 0;
 
 	// This is for rendering the game area
-	public Game(Engine engine) {
+	public Game(GameState engine) {
 		this.engine = engine;
 		setPreferredSize(new Dimension(640, 480));
 		setBackground(Color.BLACK);
