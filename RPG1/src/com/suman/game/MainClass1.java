@@ -17,7 +17,6 @@ public class MainClass1 {
 				frm.setResizable(false);
 				frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frm.setVisible(true);
-//				g.startGame();
 			}
 		});
 	}

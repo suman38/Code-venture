@@ -1,55 +1,53 @@
 package com.suman.game;
 
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import com.suman.game.states.BattleState;
 import com.suman.game.states.GameState;
 import com.suman.game.states.HomeState;
 import com.suman.game.states.State;
+import com.suman.game.states.StateType;
 
 public class Engine extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static final int GameWidth = 800, GameHeight = 600;
 
-	State homeState, gameState;
-	
-	CardLayout cardLayout;
-	String currentCard = "B";
-	
+	private State homeState, gameState, battleState;
+
+	private CardLayout cardLayout;
+
 	public Engine() {
-		setPreferredSize(new Dimension(Engine.GameWidth, Engine.GameHeight));
+		setPreferredSize(new Dimension(GameWidth, GameHeight));
 		setDoubleBuffered(true);
 		setFocusable(true);
 
 		homeState = new HomeState(this);
-		homeState.setBackground(Color.RED);
 		gameState = new GameState(this);
-		gameState.setBackground(Color.BLACK);
-		
+		battleState = new BattleState(this);
+
 		cardLayout = new CardLayout();
 		setLayout(cardLayout);
-		
-		add(homeState,"A");
-		add(gameState,"B");
 
-		cardLayout.show(this, currentCard);
+		add(homeState, StateType.HOME.getName());
+		add(gameState, StateType.GAME.getName());
+		add(battleState, StateType.BATTLE.getName());
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+//		System.out.println(StateType.HOME.getClass().getName());
 
+		showScene(StateType.HOME);
 	}
 
+	public void showScene(StateType type) {
+		if (type == StateType.GAME) {
+			((GameState) gameState).startGame();
+		} else {
+			((GameState) gameState).stopGame();
+		}
+		
+		cardLayout.show(this, type.getName());
+	}
 }

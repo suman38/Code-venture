@@ -51,7 +51,7 @@ public class Game extends JPanel {
 		camera = new Camera(this);
 
 		assignKeyBindings();
-		world.loadWorld("grass2");
+		world.loadWorld("grass1");
 //		player.setSpawn(3, 3);
 	}
 

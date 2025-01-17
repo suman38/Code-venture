@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EtchedBorder;
@@ -109,12 +108,7 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == btnExit) {
-			int ch = JOptionPane.showConfirmDialog(engine, "Do you want to exit the game?", "Exit game",
-					JOptionPane.YES_NO_OPTION);
-
-			if (ch == JOptionPane.YES_OPTION) {
-				System.exit(0);
-			}
+			engine.showHome();
 		} else if (e.getSource() == btnMap) {
 			if (btnMap.getModel().isSelected())
 				engine.showPanel("map");

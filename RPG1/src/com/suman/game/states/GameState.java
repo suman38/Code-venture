@@ -57,12 +57,20 @@ public class GameState extends State {
 		add(topPanel, "North");
 		add(sidePanel, "East");
 		add(centerPanel, "Center");
+
+		gameTimer = new Timer(delay, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				System.out.println("From Game Timer");
+				tick();
+				render();
+			}
+		});
 	}
 
 	public void showPanel(String s) {
-
 		if (gameTimer.isRunning())
-			gameTimer.stop();
+			stopGame();
 		else
 			gameTimer.restart();
 
@@ -82,15 +90,11 @@ public class GameState extends State {
 	}
 
 	public void startGame() {
-		gameTimer = new Timer(delay, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				tick();
-				render();
-			}
-		});
 		gameTimer.start();
+	}
+
+	public void stopGame() {
+		gameTimer.stop();
 	}
 
 	private void tick() {
@@ -101,6 +105,10 @@ public class GameState extends State {
 	private void render() {
 		topPanel.repaint();
 		game.repaint();
+	}
+
+	public void showHome() {
+		engine.showScene(StateType.HOME);
 	}
 
 	public Game getGame() {
