@@ -2,52 +2,102 @@ package com.suman.game;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JPanel;
 
-import com.suman.game.states.BattleState;
-import com.suman.game.states.GameState;
-import com.suman.game.states.HomeState;
-import com.suman.game.states.State;
-import com.suman.game.states.StateType;
+import com.suman.game.entities.Player;
+import com.suman.game.states.BattleScene;
+import com.suman.game.states.GameScene;
+import com.suman.game.states.HomeScene;
+import com.suman.game.states.Scene;
+import com.suman.game.states.SceneType;
 
 public class Engine extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	public static final int GameWidth = 800, GameHeight = 600;
 
-	private State homeState, gameState, battleState;
+	private Scene homeScene, gameScene, battleScene;
 
 	private CardLayout cardLayout;
 
+	private final String fileDir = System.getenv("USERPROFILE") + "/documents/codeventure";
+	private final String fileName = fileDir + "/savefile1.dat";
+	private File myFile;
+
 	public Engine() {
+
+		myFile = new File(fileDir);
+		if (!myFile.exists()) {
+			myFile.mkdir();
+		}
+
 		setPreferredSize(new Dimension(GameWidth, GameHeight));
 		setDoubleBuffered(true);
 		setFocusable(true);
 
-		homeState = new HomeState(this);
-		gameState = new GameState(this);
-		battleState = new BattleState(this);
+		homeScene = new HomeScene(this);
+		gameScene = new GameScene(this);
+		battleScene = new BattleScene(this);
 
 		cardLayout = new CardLayout();
 		setLayout(cardLayout);
 
-		add(homeState, StateType.HOME.getName());
-		add(gameState, StateType.GAME.getName());
-		add(battleState, StateType.BATTLE.getName());
-		
+		add(homeScene, SceneType.HOME.getName());
+		add(gameScene, SceneType.GAME.getName());
+		add(battleScene, SceneType.BATTLE.getName());
+
 //		System.out.println(StateType.HOME.getClass().getName());
 
-		showScene(StateType.HOME);
+		showScene(SceneType.HOME);
 	}
 
-	public void showScene(StateType type) {
-		if (type == StateType.GAME) {
-			((GameState) gameState).startGame();
-		} else {
-			((GameState) gameState).stopGame();
+	public void setPlayer(Player player) {
+		((GameScene)gameScene).getGame().setWorld(player.getMapName());
+		((GameScene) gameScene).getGame().setPlayer(player);
+	}
+
+	public void serializePlayer() {
+		Player p = ((GameScene) gameScene).getGame().getPlayer();
+		System.out.println("Saving: "+p.toString());
+		ObjectOutputStream objout;
+
+		try {
+			objout = new ObjectOutputStream(new FileOutputStream(fileName));
+			objout.writeObject(p);
+			objout.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
+	}
+
+	public Player deserializePlayer() {
+		ObjectInputStream objin;
+
+		try {
+			objin = new ObjectInputStream(new FileInputStream(fileName));
+			Player p = (Player) objin.readObject();
+			objin.close();
+			return p;
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void showScene(SceneType type) {
+		if (type == SceneType.GAME) {
+			((GameScene) gameScene).startGame();
+		} else {
+			((GameScene) gameScene).stopGame();
+		}
+
 		cardLayout.show(this, type.getName());
 	}
 }

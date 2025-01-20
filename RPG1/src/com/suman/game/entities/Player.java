@@ -3,6 +3,7 @@ package com.suman.game.entities;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import com.suman.game.Game;
 import com.suman.game.art.Art;
@@ -13,28 +14,38 @@ import com.suman.game.entities.npcs.MayorNPC;
 import com.suman.game.entities.npcs.ShopNPC;
 import com.suman.game.worldtiles.World;
 
-public class Player {
+public class Player implements Serializable {
 
-	private Game game;
-	private int x, y, dx, dy;
+	// transient modifier to avoid being serialized.
+	// Final variables are constants by default hence no use serializing.
+	// Static and non static variables can be serialized.
 
-	private int hp, maxHp, mp, maxMp;
+	private static final long serialVersionUID = 1L;
+	private transient Game game;
+	private int x, y;
+	private transient int dx, dy;
+
+	private int playerLevel;
+
+	private int hp, mp;
+	private int maxHp, maxMp;
 
 	private final int MoveSpeed = 10;
 
-	private int currentSprite = 0;
-	private int counter = 0;
+	private transient int currentSprite = 0;
+	private transient int counter = 0;
 
-	private boolean moving = false;
+	private transient boolean moving = false;
 
 	// I am adding this to avoid confusion in the math
-	private Rectangle bounds;
+	private transient Rectangle bounds;
 
-	private Inventory bag;
+	private transient Inventory bag;
+	
+	private String mapName;
 
 	public Player(Game game) {
 		this.game = game;
-
 		// player spawn points on the map
 //		x = 3 * World.tileSize;
 //		y = 4 * World.tileSize;
@@ -43,6 +54,7 @@ public class Player {
 		maxMp = 50;
 		hp = maxHp;
 		mp = maxMp;
+		playerLevel = 1;
 
 		// From point A to point D of player Sprite.
 		// As explained in the video.
@@ -78,6 +90,15 @@ public class Player {
 		movePlayer();
 		dx = 0;
 		dy = 0;
+	}
+
+	@Override
+	public String toString() {
+//		return "Player[Level:," + playerLevel + "x:" + x + ", y:" + y + ", dx:" + dx + ", dy:" + dy + ", hp:" + hp
+//				+ ", maxHp:" + maxHp + ",mp:" + mp + ",maxmp:" + maxMp + "]";
+
+		String str = "Player[Level:%d, x:%d, y:%d, HP:%d, MaxHP:%d, MP:%d, MaxMP:%d, MapName: %s]";
+		return String.format(str, playerLevel, x, y, hp, maxHp, mp, maxMp,mapName);
 	}
 
 	private void movePlayer() {
@@ -203,7 +224,7 @@ public class Player {
 				ShopNPC s1 = (ShopNPC) n1;
 				s1.interact();
 				break;
-			
+
 			case 3:
 				HealerNPC h1 = (HealerNPC) n1;
 				h1.interact();
@@ -269,11 +290,35 @@ public class Player {
 		return y;
 	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getPlayerLevel() {
+		return playerLevel;
+	}
+
+	public void setPlayerLevel(int level) {
+		this.playerLevel = level;
+	}
+
 	public Rectangle getBounds() {
 		return bounds;
 	}
 
 	public Inventory getBag() {
 		return bag;
+	}
+
+	public String getMapName() {
+		return mapName;
+	}
+
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
 	}
 }

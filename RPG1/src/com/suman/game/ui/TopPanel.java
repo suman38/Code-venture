@@ -24,6 +24,7 @@ public class TopPanel extends JPanel {
 
 	private int hp, mp, maxHp, maxMp;
 	private int posx, posy;
+	private String loc;
 
 	public TopPanel(Player player) {
 		this.player = player;
@@ -32,6 +33,7 @@ public class TopPanel extends JPanel {
 		f = new Font("Arial", Font.BOLD, 22);
 		textRendering = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		loc = "";
 	}
 
 	public void tick() {
@@ -39,6 +41,7 @@ public class TopPanel extends JPanel {
 		mp = player.getMp();
 		maxHp = player.getMaxHp();
 		maxMp = player.getMaxMp();
+		loc = player.getMapName();
 
 		posx = ((player.getX() + Art.artResize / 2) / World.tileSize) + 1;
 		posy = ((player.getY() + Art.artResize / 2) / World.tileSize) + 1;
@@ -55,7 +58,7 @@ public class TopPanel extends JPanel {
 		g2.drawString("Hp: " + hp + "/" + maxHp, 30, 40);
 		g2.drawString("Mp: " + mp + "/" + maxMp, 30, 90);
 
-		g2.drawString("Place name", 550, 40);
+		g2.drawString(loc.toUpperCase(), 550, 40);
 		g2.drawString("X: " + posx + "  Y: " + posy, 550, 90);
 
 		g2.dispose();

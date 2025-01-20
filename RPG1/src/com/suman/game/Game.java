@@ -18,13 +18,13 @@ import com.suman.game.entities.Player;
 import com.suman.game.entities.objects.ActionBox;
 import com.suman.game.entities.objects.Box;
 import com.suman.game.items.ItemManager;
-import com.suman.game.states.GameState;
+import com.suman.game.states.GameScene;
 import com.suman.game.worldtiles.World;
 
 public class Game extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private GameState engine;
+	private GameScene engine;
 
 	public ItemManager iManager;
 
@@ -34,16 +34,22 @@ public class Game extends JPanel {
 	private Camera camera;
 
 	private InteractableObject iobj;
+	
+	private String mapName = "grass1";
 
 	private final int InFocus = JComponent.WHEN_IN_FOCUSED_WINDOW;
 	private int playerDirection = 0;
 
 	// This is for rendering the game area
-	public Game(GameState engine) {
+	public Game(GameScene engine) {
 		this.engine = engine;
 		setPreferredSize(new Dimension(640, 480));
-		setBackground(Color.BLACK);
-
+		setBackground(Color.BLACK);	
+		initGame();
+	}
+	
+	public void initGame()
+	{
 		iManager = new ItemManager();
 		art = new Art();
 		world = new World(this);
@@ -51,7 +57,7 @@ public class Game extends JPanel {
 		camera = new Camera(this);
 
 		assignKeyBindings();
-		world.loadWorld("grass1");
+		setWorld(mapName);
 //		player.setSpawn(3, 3);
 	}
 
@@ -82,7 +88,7 @@ public class Game extends JPanel {
 					iobj = obj;
 					return true;
 				} else if (obj instanceof ActionBox) {
-					world.loadWorld(((ActionBox)obj).getNextMap());
+					setWorld(((ActionBox) obj).getNextMap());
 				}
 			}
 		}
@@ -146,8 +152,24 @@ public class Game extends JPanel {
 		return player;
 	}
 
+	public void setPlayer(Player player) {
+		this.player.setPlayerLevel(player.getPlayerLevel());
+		this.player.setX(player.getX());
+		this.player.setY(player.getY());
+		this.player.setHp(player.getHp());
+		this.player.setMaxHp(player.getMaxHp());
+		this.player.setMp(player.getMp());
+		this.player.setMaxMp(player.getMaxMp());
+	}
+
 	public World getWorld() {
 		return world;
+	}
+	
+	public void setWorld(String name)
+	{
+		player.setMapName(name);
+		world.loadWorld(name);
 	}
 
 	public Camera getCamera() {

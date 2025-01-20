@@ -18,13 +18,14 @@ import javax.swing.border.TitledBorder;
 
 import com.suman.game.entities.InteractableObject;
 import com.suman.game.entities.Player;
-import com.suman.game.states.GameState;
+import com.suman.game.states.GameScene;
+import com.suman.game.states.SceneType;
 
 public class SidePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private GameState engine;
+	private GameScene engine;
 	private Player player;
 	private InteractableObject obj;
 
@@ -33,8 +34,10 @@ public class SidePanel extends JPanel implements ActionListener {
 
 	private TitledBorder titledBorder;
 
-	public SidePanel(GameState engine) {
+	public SidePanel(GameScene engine) {
 		this.engine = engine;
+		
+		//This line might cause problems in the future when loading player bag
 		this.player = engine.getGame().getPlayer();
 
 		setBackground(Color.DARK_GRAY);
@@ -108,7 +111,8 @@ public class SidePanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == btnExit) {
-			engine.showHome();
+			engine.getGameEngine().serializePlayer();
+			engine.getGameEngine().showScene(SceneType.HOME);
 		} else if (e.getSource() == btnMap) {
 			if (btnMap.getModel().isSelected())
 				engine.showPanel("map");
@@ -127,7 +131,6 @@ public class SidePanel extends JPanel implements ActionListener {
 				engine.showPanel("game");
 			}
 		} else if (e.getSource() == btnAction) {
-			// code will be added in the future
 			player.interact(obj);
 		}
 	}
